@@ -29,9 +29,9 @@ export async function signIn(req,res){
             };
             const config = { expiresIn: 60*60*24*1 }
             const token = jwt.sign(data, secretKey, config);
-            // const profilePicture = user.profilePicture;
+            const profilePicture = user.profilePicture;
 
-            res.status(200).send({token});
+            res.status(200).send({token,profilePicture});
             return;
         }
         res.status(401).send("Incorrect password!");
