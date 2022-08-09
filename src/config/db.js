@@ -11,6 +11,13 @@ const databaseConfig = {
     }
 }
 
-const db = new Pool(databaseConfig);
+//const db = new Pool(databaseConfig);
+const db = new Pool({
+    host: 'localhost',
+    port: 5432,
+    user: 'postgres',
+    password: 'postgres1',
+    database: 'linkr'
+});
 
 export default db;
