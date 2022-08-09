@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import tokenSchema from "../schemas/tokenSchema.js";
 import {getUserByUsername} from "../repositories/userRepository.js";
+import chalk from "chalk";
+
 dotenv.config();
 
 export async function validateToken(req,res,next){
@@ -16,7 +18,7 @@ export async function validateToken(req,res,next){
         }
 
         const validation = await tokenSchema.validateAsync(token);
-        const secretKey = process.env.JWT_KEY;
+        const secretKey = process.env.JWT_KEY??'JWT_SECRET';
 
         const userValidation = jwt.verify(validation,secretKey);
         const {rows: users}= await getUserByUsername(userValidation.username);
@@ -32,6 +34,7 @@ export async function validateToken(req,res,next){
         res.locals.user = user;
         next();
     } catch (error) {
+        console.log(error)
         console.log(chalk.bold.red("Erro no servidor!"));
         res.status(500).send({
           message: "Internal server error while validate token!",
