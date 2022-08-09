@@ -13,8 +13,7 @@ dotenv.config();
 export async function signIn(req,res){
     const {email, password} = req.body;
 
-    try {
-        const { rows:users } = await getUserByEmail(email);
+    const { rows:users } = await getUserByEmail(email);
         const [user]=users;
         if (!user){
             res.status(401).send("Unregistered e-mail!");
@@ -34,13 +33,16 @@ export async function signIn(req,res){
         }
         res.status(401).send("Incorrect password!");
         return;
-    } catch (error) {
-        console.log(chalk.bold.red("Erro no servidor!"));
-        res.status(500).send({
-          message: "Internal server error while login!",
-        });
-        return;
-    }
+
+    // try {
+        
+    // } catch (error) {
+    //     console.log(chalk.bold.red("Erro no servidor!"));
+    //     res.status(500).send({
+    //       message: "Internal server error while login!",
+    //     });
+    //     return;
+    // }
 }
 
 export async function signUp(req,res){
