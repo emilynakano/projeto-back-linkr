@@ -39,5 +39,5 @@ export async function validateToken(req,res,next){
         res.status(500).send({
           message: "Internal server error while validate token!",
         });
-    // }
+    }
 }
