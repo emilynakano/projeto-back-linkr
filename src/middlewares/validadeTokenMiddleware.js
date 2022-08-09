@@ -19,7 +19,7 @@ export async function validateToken(req,res,next){
         const secretKey = process.env.JWT_KEY;
 
         const userValidation = jwt.verify(validation,secretKey);
-        const {rows: users}= await getUserByUsername(user.username);
+        const {rows: users}= await getUserByUsername(userValidation.username);
         const [user]=users;
 
         if (!user){
