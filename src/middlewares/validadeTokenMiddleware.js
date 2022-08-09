@@ -8,9 +8,7 @@ dotenv.config();
 
 export async function validateToken(req,res,next){
     const { authorization } = req.headers;
-    
-    try {
-        const token = authorization?.replace("Bearer ", "").trim();
+    const token = authorization?.replace("Bearer ", "").trim();
 
         if(!token){
             res.status(401).send("No token!");
@@ -33,11 +31,13 @@ export async function validateToken(req,res,next){
 
         res.locals.user = user;
         next();
-    } catch (error) {
-        console.log(error)
-        console.log(chalk.bold.red("Erro no servidor!"));
-        res.status(500).send({
-          message: "Internal server error while validate token!",
-        });
-    }
+    // try {
+        
+    // } catch (error) {
+    //     console.log(error)
+    //     console.log(chalk.bold.red("Erro no servidor!"));
+    //     res.status(500).send({
+    //       message: "Internal server error while validate token!",
+    //     });
+    // }
 }
