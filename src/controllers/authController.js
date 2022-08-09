@@ -27,9 +27,9 @@ export async function signIn(req,res){
                 username:user.name
             };
             const token = jwt.sign(data, secretKey);
-            const profilePicture = user.profilePicture;
+            // const profilePicture = user.profilePicture;
 
-            res.status(200).send({token,profilePicture});
+            res.status(200).send({token});
             return;
         }
         res.status(401).send("Incorrect password!");
