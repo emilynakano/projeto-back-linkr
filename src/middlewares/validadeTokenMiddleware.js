@@ -16,7 +16,7 @@ export async function validateToken(req,res,next){
         }
 
         const validation = await tokenSchema.validateAsync(token);
-        const secretKey = process.env.JWT_KEY??'JWT_SECRET';
+        const secretKey = process.env.JWT_KEY;
 
         const userValidation = jwt.verify(validation,secretKey);
         const {rows: users}= await getUserByUsername(userValidation.username);
