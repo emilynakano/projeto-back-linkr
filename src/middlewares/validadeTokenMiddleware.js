@@ -32,12 +32,14 @@ export async function validateToken(req,res,next){
         delete userValidation.iat;
 
         res.locals.user = user;
-        next();
+        return;
     } catch (error) {
         console.log(error)
         console.log(chalk.bold.red("Erro no servidor!"));
         res.status(500).send({
           message: "Internal server error while validate token!",
         });
+        return;
     }
+    next();
 }
