@@ -1,7 +1,7 @@
 import db from "../config/db.js";
 import bcrypt from "bcrypt";
 
-export async function getUserEmail(email){
+export async function getUserByEmail(email){
     return db.query(
         `SELECT * FROM users WHERE email = $1`,[email]
     );
@@ -22,3 +22,8 @@ export async function createUser(email, password, username, pictureUrl){
         [email, hashPassword, username, pictureUrl]
     );
 }
+
+
+
+
+
