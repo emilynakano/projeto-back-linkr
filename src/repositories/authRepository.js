@@ -1,4 +1,5 @@
 import db from "../config/db.js";
+import bcrypt from "bcrypt";
 
 export async function getUserEmail(email){
     return db.query(
@@ -13,9 +14,11 @@ export async function getUsername(username){
 }
 
 export async function createUser(email, password, username, pictureUrl){
+    const SALT = 10;
+    const hashPassword = bcrypt.hashSync(password,SALT);
     return db.query(
-        `INSERT INTO users (email, password, name, profilePicture)
+        `INSERT INTO users (email, password, name, "profilePicture")
         VALUES($1, $2, $3, $4)`,
-        [email, password, username, pictureUrl]
+        [email, hashPassword, username, pictureUrl]
     );
 }
