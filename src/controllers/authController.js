@@ -26,7 +26,8 @@ export async function signIn(req,res){
                 id:user.id,
                 username:user.name
             };
-            const token = jwt.sign(data, secretKey);
+            const config = { expiresIn: 60*60*24*1 }
+            const token = jwt.sign(data, secretKey, config);
             // const profilePicture = user.profilePicture;
 
             res.status(200).send({token});
