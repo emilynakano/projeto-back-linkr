@@ -10,13 +10,15 @@ export async function validateToken(req,res,next){
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "").trim();
 
+        
+    try {
         if(!token){
             res.status(401).send("No token!");
             return;
         }
 
         const validation = await tokenSchema.validateAsync(token);
-        const secretKey = process.env.JWT_KEY;
+        const secretKey = process.env.JWT_KEY??'JWT_SECRET';
 
         const userValidation = jwt.verify(validation,secretKey);
         const {rows: users}= await getUserByUsername(userValidation.username);
@@ -31,13 +33,11 @@ export async function validateToken(req,res,next){
 
         res.locals.user = user;
         next();
-    // try {
-        
-    // } catch (error) {
-    //     console.log(error)
-    //     console.log(chalk.bold.red("Erro no servidor!"));
-    //     res.status(500).send({
-    //       message: "Internal server error while validate token!",
-    //     });
+    } catch (error) {
+        console.log(error)
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: "Internal server error while validate token!",
+        });
     // }
 }
