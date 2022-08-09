@@ -15,7 +15,8 @@ export async function signUp(req,res){
     const { email, password, username, pictureUrl } = req.body;
     const SALT = 10;
 
-    const repeatEmail = await getUserEmail(email);
+    try {
+        const repeatEmail = await getUserEmail(email);
         if (repeatEmail.rowCount > 0){
             res.status(409).send("E-mail already registered!");
             return;
@@ -32,17 +33,14 @@ export async function signUp(req,res){
         await createUser(email, hashPassword, username, pictureUrl);
 
         res.sendStatus(201);
-        return;
-
-    // try {
+        return;    
         
-        
-    // } catch (error) {
-    //     console.log(chalk.bold.red("Erro no servidor!"));
-    //     res.status(500).send({
-    //       message: "Internal server error while register user!",
-    //     });
-    //     return; 
-    // }
+    } catch (error) {
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: "Internal server error while register user!",
+        });
+        return; 
+    }
 }
 
