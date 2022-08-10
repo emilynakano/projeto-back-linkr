@@ -13,7 +13,7 @@ export async function getPosts(req, res) {
     try {
         const {rows: posts} = await getAllPosts();
         const resp = []
-        posts.map(async function (post){
+        for(const post of posts) {
             try {
                 const metadata = await urlMetadata(post.url)
                 resp.push({
@@ -46,7 +46,7 @@ export async function getPosts(req, res) {
                     }  
                 })
             }
-        })
+        }
     } catch {
         res.sendStatus(500)
     }
