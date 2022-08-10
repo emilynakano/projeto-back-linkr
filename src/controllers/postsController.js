@@ -24,7 +24,7 @@ export async function getPosts(req, res) {
                         title: metadata.title,
                         description: metadata.description,
                         image: metadata.image,
-                        url
+                        url: post.url
                     }  
                 })
                 if(resp.length === posts.length) {
@@ -42,7 +42,7 @@ export async function getPosts(req, res) {
                         title: null,
                         description: null,
                         image: null,
-                        url
+                        url: post.url
                     }  
                 })
             }
