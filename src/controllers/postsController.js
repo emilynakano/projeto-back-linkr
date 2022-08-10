@@ -4,7 +4,7 @@ import urlMetadata from 'url-metadata';
 export async function createPost(req, res) {
     const {url, content} = req.body;
     const posterId = res.locals.user.id;
-
+    console.log(posterId)
     await insertPost(url, content, posterId);
 
     res.sendStatus(201)
