@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import { getTest } from './controllers/controllers.js';
 import router from './routes/router.js';
 import chalk from "chalk";
-
 dotenv.config();
 
 const app = express();
