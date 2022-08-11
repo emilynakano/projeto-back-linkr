@@ -18,6 +18,7 @@ export async function getPosts(req, res) {
             try {
                 const metadata = await urlMetadata(post.url)
                 resp.push({
+                    id: post.id,
                     name: post.name,
                     profilePicture: post.profilePicture, 
                     content: post.content, 
@@ -36,6 +37,7 @@ export async function getPosts(req, res) {
                     return res.status(200).send(resp);
                 }
                 resp.push({
+                    id: post.id,
                     name: post.name,
                     profilePicture: post.profilePicture, 
                     content: post.content, 
