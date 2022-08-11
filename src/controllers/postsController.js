@@ -1,4 +1,4 @@
-import { insertPost, getAllPosts } from '../repositories/postsRepository.js';
+import { insertPost, getAllPosts, findPostById, updateDescription } from '../repositories/postsRepository.js';
 import urlMetadata from 'url-metadata';
 
 export async function createPost(req, res) {
@@ -49,5 +49,28 @@ export async function getPosts(req, res) {
         }
     } catch {
         res.sendStatus(500)
+    }
+}
+
+export async function editPost(req,res){
+    const {id} = req.params;
+    const {description} = req.body;
+
+    try {
+        const {rows:posts} = await findPostById(id);
+        const [post]=posts;
+        if(!post){
+            res.status(404).send('Post not found!');
+            return;
+        }
+        await updateDescription(id,description);
+        res.sendStatus(204);
+        return;
+    } catch (error) {
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: "Internal server error while edit post!",
+        });
+        return;
     }
 }
