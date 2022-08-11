@@ -16,7 +16,7 @@ export async function getAllPosts() {
 
 export async function getPostsByPosterId(posterId) {
     return db.query(
-        `SELECT *, users.name, users."profilePicture" FROM posts JOIN users ON "posterId" = users.id WHERE "posterId" = $1`, [posterId]);
+        `SELECT name, posts.id, posts.content, "profilePicture", posts.url FROM users JOIN posts ON users.id=posts."posterId" WHERE "posterId" = $1 ORDER BY posts."createdAt" DESC LIMIT 20;`, [posterId]);
     }
 
 export async function findPostById(id){
