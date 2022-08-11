@@ -74,6 +74,7 @@ export async function getUserPostsById(req, res) {
           message: "Internal server error while getting posts!",
         });
         return;
+    }
 }
         
 export async function editPost(req,res){
@@ -81,9 +82,8 @@ export async function editPost(req,res){
     const {description} = req.body;
 
     try {
-        const {rows:posts} = await findPostById(id);
-        const [post]=posts;
-        if(!post){
+        const post= await findPostById(id);
+        if(post.rowCount===0){
             res.status(404).send('Post not found!');
             return;
         }
