@@ -10,7 +10,7 @@ export async function insertPost(url, content, posterId) {
     )
 }
 export async function getAllPosts() {
-    return db.query(`SELECT users.name, posts.content, users."profilePicture", posts.url FROM users JOIN posts ON users.id=posts."posterId" ORDER BY posts."createdAt" DESC LIMIT 20;
+    return db.query(`SELECT users.name, posts.id, posts.content, users."profilePicture", posts.url FROM users JOIN posts ON users.id=posts."posterId" ORDER BY posts."createdAt" DESC LIMIT 20;
     `)
 }
 
