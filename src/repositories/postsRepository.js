@@ -17,4 +17,18 @@ export async function getAllPosts() {
 export async function getPostsByPosterId(posterId) {
     return db.query(
         `SELECT *, users.name, users."profilePicture" FROM posts JOIN users ON "posterId" = users.id WHERE "posterId" = $1`, [posterId])
+
+export async function findPostById(id){
+    return db.query(
+        `SELECT * FROM posts
+        WHERE id = $1`,[id]
+    );
+}
+
+export async function updateDescription(id,description){
+    return db.query(
+        `UPDATE posts
+        SET description = $1
+        WHERE id = $2`,[description,id]
+    );
 }

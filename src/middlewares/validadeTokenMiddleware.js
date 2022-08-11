@@ -32,6 +32,7 @@ export async function validateToken(req,res,next){
         delete userValidation.iat;
 
         res.locals.user = user;
+        next();
     } catch (error) {
         console.log(error)
         console.log(chalk.bold.red("Erro no servidor!"));
@@ -40,5 +41,4 @@ export async function validateToken(req,res,next){
         });
         return;
     }
-    next();
 }
