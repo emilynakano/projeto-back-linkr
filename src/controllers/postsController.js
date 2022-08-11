@@ -74,6 +74,7 @@ export async function getUserPostsById(req, res) {
           message: "Internal server error while getting posts!",
         });
         return;
+    }
 }
         
 export async function editPost(req,res){
