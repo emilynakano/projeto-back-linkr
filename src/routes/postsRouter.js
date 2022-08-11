@@ -7,5 +7,5 @@ import postSchema from "../schemas/postSchema.js";
 const postsRouter = Router();
 postsRouter.post('/posts', validateToken, validateSchema(postSchema), createPost);
 postsRouter.get('/posts', getPosts);
-postsRouter.post('posts/:id/edit', validateToken, editPost);
+postsRouter.post('/posts/:id/edit', validateToken, editPost);
 export default postsRouter;
