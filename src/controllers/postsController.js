@@ -1,6 +1,7 @@
 import { getPostsByPosterId } from "../repositories/postsRepository.js";
 import { insertPost, getAllPosts, findPostById, updateContent} from '../repositories/postsRepository.js';
 import urlMetadata from 'url-metadata';
+import { getUserById } from "../repositories/userRepository.js";
 
 export async function createPost(req, res) {
     const {url, content} = req.body;
@@ -60,7 +61,6 @@ export async function getPosts(req, res) {
 export async function getUserPostsById(req, res) {
 
     const { id } = req.params;
-    const user = res.locals.user;
 
     if (!id || isNaN(Number(id))) {
         res.status(400).send("Invalid id!");
@@ -70,9 +70,23 @@ export async function getUserPostsById(req, res) {
     try {
         
         const { rows: posts } = await getPostsByPosterId(id);
+        const { rows: user } = await getUserById(id);
+
+        if (user.rowCount === 0){
+            res.status(404).send("User not found!");
+            return;
+        }
+
+        for (const post of posts) {
+            const metadata = await urlMetadata(post.url);
+            post.title = metadata.title;
+            post.description = metadata.description;
+            post.image = metadata.image;
+        }
+
         const response = {
-            name: user.name,
-            photo: user.photo,
+            name: user[0].name,
+            photo: user[0].profilePicture,
             posts
         }
         res.status(200).send(response);
