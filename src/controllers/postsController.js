@@ -1,5 +1,5 @@
 import { getPostsByPosterId } from "../repositories/postsRepository.js";
-import { insertPost, getAllPosts, findPostById, updateDescription } from '../repositories/postsRepository.js';
+import { insertPost, getAllPosts, findPostById, updateContent} from '../repositories/postsRepository.js';
 import urlMetadata from 'url-metadata';
 
 export async function createPost(req, res) {
@@ -79,7 +79,7 @@ export async function getUserPostsById(req, res) {
         
 export async function editPost(req,res){
     const {id} = req.params;
-    const {description} = req.body;
+    const {content} = req.body;
 
     try {
         const post= await findPostById(id);
@@ -87,7 +87,7 @@ export async function editPost(req,res){
             res.status(404).send('Post not found!');
             return;
         }
-        await updateDescription(id,description);
+        await updateContent(id,content);
         res.sendStatus(204);
         return;
     } catch (error) {
