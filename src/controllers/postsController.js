@@ -18,11 +18,12 @@ export async function getPosts(req, res) {
             try {
                 const metadata = await urlMetadata(post.url)
                 resp.push({
-                    id: post.id,
+                    id:post.userId,
                     name: post.name,
                     profilePicture: post.profilePicture, 
                     content: post.content, 
                     post: {
+                        id:post.postId,
                         title: metadata.title,
                         description: metadata.description,
                         image: metadata.image,
@@ -37,11 +38,12 @@ export async function getPosts(req, res) {
                     return res.status(200).send(resp);
                 }
                 resp.push({
-                    id: post.id,
+                    id:post.userId,
                     name: post.name,
                     profilePicture: post.profilePicture, 
                     content: post.content, 
                     post: {
+                        id:post.postId,
                         title: null,
                         description: null,
                         image: null,
