@@ -10,7 +10,7 @@ const databaseConfig = {
         rejectUnauthorized: false
     }
 }
-const db = new Pool(databaseConfig);
 
+const db = new Pool(databaseConfig);
 
 export default db;
