@@ -26,10 +26,10 @@ export async function findPostById(id){
     );
 }
 
-export async function updateDescription(id,description){
+export async function updateContent(id,content){
     return db.query(
         `UPDATE posts
-        SET description = $1
-        WHERE id = $2`,[description,id]
+        SET content = $1
+        WHERE id = $2`,[content,id]
     );
 }
