@@ -72,7 +72,7 @@ export async function getUserPostsById(req, res) {
         const { rows: posts } = await getPostsByPosterId(id);
         const { rows: user } = await getUserById(id);
 
-        if (user.rowCount === 0){
+        if (user.length === 0){
             res.status(404).send("User not found!");
             return;
         }
