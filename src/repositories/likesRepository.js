@@ -15,6 +15,12 @@ export async function getPosts () {
     )
 }
 export async function getLikes(post) {
-    return db.query(`SELECT users.name FROM likes JOIN users ON users."id"=likes."userId" WHERE "postId"=$1`, [post.id]
+    return db.query(
+        `SELECT users.name FROM likes JOIN users ON users."id"=likes."userId" WHERE "postId"=$1`, [post.id]
     );
+}
+export async function deslike(postId, userId) {
+    return db.query(
+        `DELETE FROM likes WHERE "postId"=$1 AND "userId"=$2`, [postId, userId]
+        );
 }
