@@ -2,6 +2,7 @@ import { getPostsByPosterId } from "../repositories/postsRepository.js";
 import { insertPost, getAllPosts, findPostById, updateContent} from '../repositories/postsRepository.js';
 import urlMetadata from 'url-metadata';
 import { getUserById } from "../repositories/userRepository.js";
+import chalk from "chalk";
 
 export async function createPost(req, res) {
     const {url, content} = req.body;
