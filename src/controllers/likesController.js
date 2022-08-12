@@ -35,7 +35,7 @@ export async function getLikesUser (req, res) {
 }
 export async function getDeslike (req, res) {
     try {
-        const postId = req.body.id;
+        const postId = req.params.id;
         const userId = res.locals.user.id;
         await deslike(postId, userId)
         res.sendStatus(204)
