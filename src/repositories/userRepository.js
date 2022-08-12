@@ -6,3 +6,10 @@ export async function getUserByUsername(username){
         [username]
     );
 }
+
+export async function getUserById(id){
+    return db.query(
+        `SELECT name, "profilePicture" FROM users WHERE id = $1`,
+        [id]
+    );
+}
