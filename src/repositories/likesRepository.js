@@ -14,9 +14,14 @@ export async function getPosts () {
         `SELECT * FROM posts ORDER BY "createdAt" DESC LIMIT 20`
     )
 }
-export async function getLikes(post) {
+export async function getLikes(post, userId) {
     return db.query(
-        `SELECT users.name FROM likes JOIN users ON users."id"=likes."userId" WHERE "postId"=$1`, [post.id]
+        `SELECT users.name FROM likes JOIN users ON users."id"=likes."userId" WHERE "postId"=$1 AND NOT "userId"=$2`, [post.id, userId]
+    );
+}
+export async function getLikeUser (userId) {
+    return db.query(
+        `SELECT "postId" FROM likes WHERE "userId"=$1`, [userId]
     );
 }
 export async function deslike(postId, userId) {
