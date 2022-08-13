@@ -62,6 +62,7 @@ export async function getPosts(req, res) {
 export async function getUserPostsById(req, res) {
 
     const { id } = req.params;
+    const userCallerId = res.locals.user.id
 
     if (!id || isNaN(Number(id))) {
         res.status(400).send("Invalid id!");
@@ -88,6 +89,7 @@ export async function getUserPostsById(req, res) {
         const response = {
             name: user[0].name,
             photo: user[0].profilePicture,
+            userCallerId,
             posts
         }
         res.status(200).send(response);
