@@ -1,5 +1,5 @@
 import { getPostsByPosterId } from "../repositories/postsRepository.js";
-import { insertPost, getAllPosts, findPostById, updateContent} from '../repositories/postsRepository.js';
+import { insertPost, getAllPosts, findPostById, updateContent, deletePostById} from '../repositories/postsRepository.js';
 import urlMetadata from 'url-metadata';
 import { getUserById } from "../repositories/userRepository.js";
 import chalk from "chalk";
@@ -122,4 +122,41 @@ export async function editPost(req,res){
         });
         return;
     }
+}
+
+export async function deletePost(req,res){
+
+    const { id } = req.params;
+    const { userId } = res.locals;
+
+    try {
+
+        if (!id || isNaN(Number(id))) {
+            res.status(400).send("Invalid id!");
+            return;
+        }
+        
+        const post = await findPostById(id);
+        if(post.rowCount===0){
+            res.status(404).send('Post not found!');
+            return;
+        }
+        if(post.rows[0].userId!==userId){
+            res.status(403).send('You can only delete your own posts!');
+            return;
+        }
+        await deletePostById(id);
+        res.sendStatus(204);
+        return;
+
+    } catch (error) {
+
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: "Internal server error while deleting post!",
+        });
+        return;
+
+    }
+
 }
