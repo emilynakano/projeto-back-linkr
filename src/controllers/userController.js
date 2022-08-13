@@ -1,4 +1,4 @@
-import getUsersBySearch from "../repositories/userRepository.js";
+import getUsersBySearchQuerie from "../repositories/userRepository.js";
 import chalk from "chalk";
 
 export async function getUsersBySearch(req, res){
@@ -7,7 +7,7 @@ export async function getUsersBySearch(req, res){
 
     try {
         
-        const users = await getUsersBySearch(username);
+        const users = await getUsersBySearchQuerie(username);
         res.status(200).send(users);
 
     } catch (error) {
