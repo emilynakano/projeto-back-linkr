@@ -1,4 +1,5 @@
 import getUsersBySearch from "../repositories/userRepository.js";
+import chalk from "chalk";
 
 export async function getUsersBySearch(req, res){
 
