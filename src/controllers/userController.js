@@ -8,7 +8,7 @@ export async function getUsersBySearch(req, res){
     try {
         
         const users = await getUsersBySearchQuerie(username);
-        res.status(200).send(users);
+        res.status(200).send(users.rows);
 
     } catch (error) {
 
