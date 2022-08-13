@@ -33,3 +33,10 @@ export async function updateContent(id,content){
         WHERE id = $2`,[content,id]
     );
 }
+
+export async function deletePostById(id){
+    return db.query(
+        `DELETE FROM posts
+        WHERE id = $1`,[id]
+    );
+}
