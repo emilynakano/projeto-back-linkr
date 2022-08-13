@@ -80,10 +80,17 @@ export async function getUserPostsById(req, res) {
         }
 
         for (const post of posts) {
-            const metadata = await urlMetadata(post.url);
-            post.title = metadata.title;
-            post.description = metadata.description;
-            post.image = metadata.image;
+            try {
+                const metadata = await urlMetadata(post.url);
+                post.title = metadata.title;
+                post.description = metadata.description;
+                post.image = metadata.image;
+
+            } catch (error) {
+                post.title = null;
+                post.description = null;
+                post.image = null;
+            }
         }
 
         const response = {
