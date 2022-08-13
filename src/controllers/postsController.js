@@ -153,7 +153,7 @@ export async function deletePost(req,res){
 
         console.log(chalk.bold.red("Erro no servidor!"));
         res.status(500).send({
-          message: "Internal server error while deleting post!",
+          message: error,
         });
         return;
 
