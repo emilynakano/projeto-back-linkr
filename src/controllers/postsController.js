@@ -98,7 +98,7 @@ export async function getUserPostsById(req, res) {
     } catch (error) {
         console.log(chalk.bold.red("Erro no servidor!"));
         res.status(500).send({
-          message: "Internal server error while getting posts!",
+          message: error,
         });
         return;
     }
