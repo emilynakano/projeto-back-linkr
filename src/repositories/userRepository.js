@@ -13,3 +13,10 @@ export async function getUserById(id){
         [id]
     );
 }
+
+export async function getUsersBySearch(username){
+    return db.query(
+        `SELECT id, name, "profilePicture" FROM users WHERE name ILIKE $1 LIMIT 10`,
+        [username]
+    );
+}
