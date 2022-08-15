@@ -3,7 +3,7 @@
 ## Overview
 
 The purpose of this Full Stack project was to create a web application to post and share links.
-<a href="linkr-front-liard.vercel.app/"><strong>Preview Linkr APP.</strong></a>
+<a href="https://linkr-front-liard.vercel.app/"><strong>Preview Linkr APP.</strong></a>
 
 ## Routes
   - [X] **POST** `/`
