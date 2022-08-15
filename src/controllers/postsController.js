@@ -1,8 +1,9 @@
-import { getAllContent, getPostsByPosterId } from "../repositories/postsRepository.js";
+import { createTrendingTable, getAllContent, getPostsByPosterId, getPostsListByHashtag } from "../repositories/postsRepository.js";
 import { insertPost, getAllPosts, findPostById, updateContent, deletePostById} from '../repositories/postsRepository.js';
 import urlMetadata from 'url-metadata';
 import { getUserById } from "../repositories/userRepository.js";
 import chalk from "chalk";
+import { deleteTrendingContent } from "../repositories/trengingsRepository.js";
 
 export async function createPost(req, res) {
     const {url, content} = req.body;
@@ -167,32 +168,47 @@ export async function deletePost(req,res){
         return;
 
     }
-
 }
 
-export async function createHashTable (req, res) {
+export async function getPostsByHashtag(req, res) {
+
+    const { hashtag } = req.params;
+
+    if (!hashtag) {
+        res.status(400).send("Invalid hashtag!");
+        return;
+    }
+
     try {
+        
+        const { rows: posts } = await getPostsListByHashtag(hashtag);
 
-        const { rows: allPosts } = await getAllContent();
+        for (const post of posts) {
+            try {
+                const metadata = await urlMetadata(post.url);
+                post.title = metadata.title;
+                post.description = metadata.description;
+                post.image = metadata.image;
 
-        for ( const post of allPosts) {
-            const hashtags = post.content.match(/#\w+/g);
-
-            if(hashtags){
-                const hashList = hashtags.map(hashtag => hashtag.slice(1));
-                return res.status(200).send(hashList);
+            } catch (error) {
+                post.title = null;
+                post.description = null;
+                post.image = null;
             }
-            return res.sendStatus(404);
-
         }
 
-    } catch (error) {
+        const response = {
+            name: hashtag,
+            posts
+        }
+        res.status(200).send(response);
+        return;
 
+    } catch (error) {
         console.log(chalk.bold.red("Erro no servidor!"));
         res.status(500).send({
           message: error,
         });
         return;
-
     }
 }
