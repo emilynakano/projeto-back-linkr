@@ -1,4 +1,4 @@
-import { getPostsByPosterId } from "../repositories/postsRepository.js";
+import { getAllContent, getPostsByPosterId } from "../repositories/postsRepository.js";
 import { insertPost, getAllPosts, findPostById, updateContent, deletePostById} from '../repositories/postsRepository.js';
 import urlMetadata from 'url-metadata';
 import { getUserById } from "../repositories/userRepository.js";
@@ -168,4 +168,31 @@ export async function deletePost(req,res){
 
     }
 
+}
+
+export async function createHashTable (req, res) {
+    try {
+
+        const { rows: allPosts } = await getAllContent();
+
+        for ( const post of allPosts) {
+            const hashtags = post.content.match(/#\w+/g);
+
+            if(hashtags){
+                const hashList = hashtags.map(hashtag => hashtag.slice(1));
+                return res.status(200).send(hashList);
+            }
+            return res.sendStatus(404);
+
+        }
+
+    } catch (error) {
+
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: error,
+        });
+        return;
+
+    }
 }

@@ -43,3 +43,7 @@ export async function deletePostById(id){
         WHERE id = $1`,[id]
     );
 }
+
+export async function getAllContent () {
+    return db.query(`SELECT id, contetnt FROM posts`);
+}
