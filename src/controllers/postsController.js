@@ -1,7 +1,9 @@
-import { getPostsByPosterId } from "../repositories/postsRepository.js";
-import { insertPost, getAllPosts, findPostById, updateContent} from '../repositories/postsRepository.js';
+import { createTrendingTable, getAllContent, getPostsByPosterId, getPostsListByHashtag } from "../repositories/postsRepository.js";
+import { insertPost, getAllPosts, findPostById, updateContent, deletePostById} from '../repositories/postsRepository.js';
 import urlMetadata from 'url-metadata';
 import { getUserById } from "../repositories/userRepository.js";
+import chalk from "chalk";
+import { deleteTrendingContent } from "../repositories/trengingsRepository.js";
 
 export async function createPost(req, res) {
     const {url, content} = req.body;
@@ -56,6 +58,7 @@ export async function getPosts(req, res) {
 export async function getUserPostsById(req, res) {
 
     const { id } = req.params;
+    const userCallerId = res.locals.user.id
 
     if (!id || isNaN(Number(id))) {
         res.status(400).send("Invalid id!");
@@ -73,15 +76,23 @@ export async function getUserPostsById(req, res) {
         }
 
         for (const post of posts) {
-            const metadata = await urlMetadata(post.url);
-            post.title = metadata.title;
-            post.description = metadata.description;
-            post.image = metadata.image;
+            try {
+                const metadata = await urlMetadata(post.url);
+                post.title = metadata.title;
+                post.description = metadata.description;
+                post.image = metadata.image;
+
+            } catch (error) {
+                post.title = null;
+                post.description = null;
+                post.image = null;
+            }
         }
 
         const response = {
             name: user[0].name,
             photo: user[0].profilePicture,
+            userCallerId,
             posts
         }
         res.status(200).send(response);
@@ -90,7 +101,7 @@ export async function getUserPostsById(req, res) {
     } catch (error) {
         console.log(chalk.bold.red("Erro no servidor!"));
         res.status(500).send({
-          message: "Internal server error while getting posts!",
+          message: error,
         });
         return;
     }
@@ -113,6 +124,85 @@ export async function editPost(req,res){
         console.log(chalk.bold.red("Erro no servidor!"));
         res.status(500).send({
           message: "Internal server error while edit post!",
+        });
+        return;
+    }
+}
+
+export async function deletePost(req,res){
+
+    const { id } = req.params;
+    const { userId } = res.locals;
+
+    try {
+
+        if (!id || isNaN(Number(id))) {
+            res.status(400).send("Invalid id!");
+            return;
+        }
+        
+        const post = await findPostById(id);
+        if(post.rowCount===0){
+            res.status(404).send('Post not found!');
+            return;
+        }
+        if(post.rows[0].userId!==userId){
+            res.status(403).send('You can only delete your own posts!');
+            return;
+        }
+        await deletePostById(id);
+        res.sendStatus(204);
+        return;
+
+    } catch (error) {
+
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: error,
+        });
+        return;
+
+    }
+}
+
+export async function getPostsByHashtag(req, res) {
+
+    const { hashtag } = req.params;
+
+    if (!hashtag) {
+        res.status(400).send("Invalid hashtag!");
+        return;
+    }
+
+    try {
+        
+        const { rows: posts } = await getPostsListByHashtag(hashtag);
+
+        for (const post of posts) {
+            try {
+                const metadata = await urlMetadata(post.url);
+                post.title = metadata.title;
+                post.description = metadata.description;
+                post.image = metadata.image;
+
+            } catch (error) {
+                post.title = null;
+                post.description = null;
+                post.image = null;
+            }
+        }
+
+        const response = {
+            name: hashtag,
+            posts
+        }
+        res.status(200).send(response);
+        return;
+
+    } catch (error) {
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: error,
         });
         return;
     }

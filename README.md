@@ -1,10 +1,25 @@
 <h1 align="center">Linkr | Back end</h1>
 
+## Overview
+
+The purpose of this Full Stack project was to create a web application to post and share links.
+<a href="https://linkr-front-liard.vercel.app/"><strong>Preview Linkr APP.</strong></a>
+
 ## Routes
   - [X] **POST** `/`
   - [X] **POST** `/signup`
   - [X] **POST** `/posts`
   - [X] **GET** `/posts`
+  - [X] **POST** `/likes`
+  - [X] **GET** `/likes`
+  - [X] **GET** `/likes/user`
+  - [X] **DELETE** `/likes`
+  - [X] **POST** `/posts`
+  - [X] **GET** `/posts`
+  - [X] **GET** `/posts/:id/edit`
+  - [X] **DELETE** `/posts/:id`
+  - [X] **GET** `/user/:id`
+  - [X] **GET** `/search/:username`
 
 ## Technologies
 

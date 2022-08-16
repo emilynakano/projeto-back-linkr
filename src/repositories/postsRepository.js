@@ -16,7 +16,11 @@ export async function getAllPosts() {
 
 export async function getPostsByPosterId(posterId) {
     return db.query(
-        `SELECT name, posts.id, posts.content, "profilePicture", posts.url FROM users JOIN posts ON users.id=posts."posterId" WHERE "posterId" = $1 ORDER BY posts."createdAt" DESC LIMIT 20;`, [posterId]);
+        `SELECT name, posts.id, posts.content, "profilePicture", posts.url 
+        FROM users 
+        JOIN posts ON users.id=posts."posterId" 
+        WHERE "posterId" = $1 
+        ORDER BY posts."createdAt" DESC LIMIT 20;`, [posterId]);
     }
 
 export async function findPostById(id){
@@ -32,4 +36,38 @@ export async function updateContent(id,content){
         SET content = $1
         WHERE id = $2`,[content,id]
     );
+}
+
+export async function deletePostById(id){
+
+    db.query('DELETE FROM likes WHERE "postId" = $1', [id]);
+
+    db.query(`DELETE FROM hashtags WHERE 'postId" = $1`, [id]);
+
+    return db.query(
+        `DELETE FROM posts
+        WHERE id = $1`,[id]
+    );
+}
+
+export async function getAllContent () {
+    return db.query(`SELECT id, content FROM posts`);
+}
+
+export async function createTrendingTable (id, hash) {
+    return db.query(`INSERT INTO hashtags ("postId", hashtag) 
+        VALUES ($1, $2)`,
+        [id, hash]
+        );
+}
+
+export async function getPostsListByHashtag(hashtag) {
+    return db.query(`SELECT name, posts.id, posts."posterId", posts.content, "profilePicture", posts.url 
+        FROM users 
+        JOIN posts ON users.id=posts."posterId" 
+        JOIN hashtags ON hashtags."postId" = posts.id
+        WHERE hashtags.hashtag = $1 
+        ORDER BY posts."createdAt" DESC LIMIT 20`,
+        [hashtag]
+        )
 }
