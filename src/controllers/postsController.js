@@ -31,13 +31,7 @@ export async function getPosts(req, res) {
                         url: post.url
                     }  
                 })
-                if(resp.length === posts.length) {
-                    return res.status(200).send(resp);
-                }
-            } catch(error) {
-                if(resp.length === posts.length) {
-                    return res.status(200).send(resp);
-                }
+            } catch {
                 resp.push({
                     id:post.userId,
                     name: post.name,
@@ -53,6 +47,7 @@ export async function getPosts(req, res) {
                 })
             }
         }
+        res.status(200).send(resp)
     } catch {
         res.sendStatus(500)
     }
