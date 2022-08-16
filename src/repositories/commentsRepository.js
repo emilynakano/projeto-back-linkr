@@ -1,0 +1,11 @@
+import db from "../config/db.js"
+export function getComment() {
+    return db.query(
+        `SELECT users."profilePicture", users.name, comments."postId", comments."userId", comments."comment" FROM comments JOIN users ON comments."userId"=users.id ORDER BY comments."createdAt" DESC`
+        )
+}
+export function createComment(id, userId, comment) {
+    return db.query(
+        `INSERT INTO comments ("postId", "userId", comment) VALUES ($1, $2, $3)`, [id, userId, comment]
+        )
+}
