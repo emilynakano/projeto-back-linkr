@@ -29,3 +29,13 @@ export async function deslike(postId, userId) {
         `DELETE FROM likes WHERE "postId"=$1 AND "userId"=$2`, [postId, userId]
         );
 }
+export function postExists(postId) {
+    return db.query(
+        `SELECT * FROM posts WHERE id=$1`, [postId]
+        )
+}
+export function likesUser(postId, userId) {
+    return db.query(
+        `SELECT * FROM likes WHERE "postId"=$1 AND "userId"=$2`, [postId, userId]
+        )
+}
