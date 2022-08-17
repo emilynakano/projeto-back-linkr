@@ -1,7 +1,7 @@
 import db from "../config/db.js"
 export function getComment() {
     return db.query(
-        `SELECT users."profilePicture", users.name, comments."postId", comments."userId", comments."comment" FROM comments JOIN users ON comments."userId"=users.id ORDER BY comments."createdAt" DESC`
+        `SELECT users."profilePicture", users.name, comments."postId", comments."userId", comments."comment" FROM comments JOIN users ON comments."userId"=users.id ORDER BY comments."createdAt" ASC`
         )
 }
 export function createComment(id, userId, comment) {

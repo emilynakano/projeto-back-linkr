@@ -14,6 +14,7 @@ export async function newComment(req, res) {
     const userId = res.locals.user.id;
     try {
         await createComment(id, userId, comment)
+        res.sendStatus(201);
     } catch (error) {
         console.log(error)
         res.send(500)
