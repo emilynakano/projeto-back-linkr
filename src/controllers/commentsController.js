@@ -21,9 +21,13 @@ export async function newComment(req, res) {
 
         await createComment(id, userId, comment)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 71a49e0dddee7c57af99fef1a2551723bd6294c7
+=======
+
+>>>>>>> 61abc3b0c87a077e3a670fe3752f859909884543
         res.sendStatus(201);
     } catch (error) {
         console.log(error)
