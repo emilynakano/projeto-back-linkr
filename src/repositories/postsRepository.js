@@ -71,3 +71,7 @@ export async function getPostsListByHashtag(hashtag) {
         [hashtag]
         )
 }
+
+export async function getNewPostsQtyByDate(date){
+    return db.query(`SELECT COUNT(*) FROM posts WHERE "createdAt" > $1`, [date]);
+}
