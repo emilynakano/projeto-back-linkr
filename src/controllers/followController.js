@@ -60,3 +60,9 @@ export async function statusFollow(req,res){
         return;      
     }
 }
+export async function getFollowsUser(req, res) {
+    const userId = res.locals.user.id;
+    console.log(userId)
+    const { rows: followeds } = await getFollow(userId)
+    res.send(followeds).status(200)
+}
