@@ -35,3 +35,7 @@ export async function followUser(req,res){
         return;   
     }
 }
+
+export async function statusFollow(req,res){
+    
+}
