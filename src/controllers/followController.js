@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { getFollow, insertFollow, unfollow } from "../repositories/followRepository.js";
 
 export async function followUser(req,res){
-    const { followedUserId } = req.params;
+    const { id:followedUserId } = req.params;
     const {id} = res.locals.user;
 
     if (!followedUserId  || isNaN(Number(followedUserId))) {
@@ -37,7 +37,7 @@ export async function followUser(req,res){
 }
 
 export async function statusFollow(req,res){
-    const { followedUserId } = req.params;
+    const { id:followedUserId } = req.params;
     const {id} = res.locals.user;
 
     if (!followedUserId  || isNaN(Number(followedUserId))) {
