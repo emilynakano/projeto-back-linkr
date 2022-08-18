@@ -1,5 +1,6 @@
 import chalk from "chalk";
-import { getFollow, insertFollow, unfollow } from "../repositories/followRepository.js";
+import { getFollow, getFollowUser, insertFollow, unfollow } from "../repositories/followRepository.js";
+import db from "../config/db.js";
 
 export async function followUser(req,res){
     const { followedUserId } = req.params;
@@ -62,7 +63,10 @@ export async function statusFollow(req,res){
 }
 export async function getFollowsUser(req, res) {
     const userId = res.locals.user.id;
-    console.log(userId)
-    const { rows: followeds } = await getFollow(userId)
-    res.send(followeds).status(200)
+    try {
+        const {rows: follow} = await getFollowUser(userId)
+        res.send(follow).status(200)
+    } catch {
+        res.sendStatus(500)
+    }
 }
