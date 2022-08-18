@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { getFollow, getFollowUser, insertFollow, unfollow } from "../repositories/followRepository.js";
+import { getFollow, getFollowUser, insertFollow, unfollow , getAllFollowed } from "../repositories/followRepository.js";
 import db from "../config/db.js";
 
 export async function followUser(req,res){
@@ -63,10 +63,29 @@ export async function statusFollow(req,res){
 }
 export async function getFollowsUser(req, res) {
     const userId = res.locals.user.id;
-    try {
+     try {
         const {rows: follow} = await getFollowUser(userId)
         res.send(follow).status(200)
     } catch {
         res.sendStatus(500)
+
     }
 }
+
+export async function getAllFollows(req,res){
+    const {id: userId} = res.locals.user;
+    try {
+        const {rows:follows} = await getAllFollowed(userId);
+
+        res.status(200).send(follows);
+        return;
+    } catch (error) {
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: "Internal server error while get all followed users!",
+        });
+        return;     
+    }
+}
+           
+   

@@ -27,3 +27,11 @@ export async function getFollowUser(userId){
         WHERE "followerUserId"=$1`, [userId]
     );
 }
+
+
+export async function getAllFollowed(userId){
+    return db.query(
+        `SELECT * FROM follows
+        WHERE "followerUserId"=$1`,[userId]
+    );
+}
