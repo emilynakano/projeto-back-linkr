@@ -5,10 +5,10 @@ export async function followUser(req,res){
     const { followedUserId } = req.params;
     const {id} = res.locals.user;
 
-    // if (!followedUserId  || isNaN(Number(followedUserId))) {
-    //     res.status(400).send("Invalid id!");
-    //     return;
-    // }
+    if (!followedUserId  || isNaN(Number(followedUserId))) {
+        res.status(400).send("Invalid id!");
+        return;
+    }
 
     if (parseInt(id)===parseInt(followedUserId)){
         res.status(401).send("User follower and user followed are the same user!");
@@ -40,10 +40,10 @@ export async function statusFollow(req,res){
     const { followedUserId } = req.params;
     const {id} = res.locals.user;
 
-    // if (!followedUserId  || isNaN(Number(followedUserId))) {
-    //     res.status(400).send("Invalid id!");
-    //     return;
-    // }
+    if (!followedUserId  || isNaN(Number(followedUserId))) {
+        res.status(400).send("Invalid id!");
+        return;
+    }
 
     try {
 
