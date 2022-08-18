@@ -40,7 +40,8 @@ export async function getPosts(req, res) {
                     id:post.userId,
                     name: post.name,
                     profilePicture: post.profilePicture, 
-                    content: post.content, 
+                    content: post.content,
+                    createdAt: post.createdAt,
                     post: {
                         id:post.postId,
                         title: null,
