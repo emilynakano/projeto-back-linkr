@@ -88,6 +88,7 @@ export async function getAllFollows(req,res){
                     id:post.userId,
                     name: post.name,
                     profilePicture: post.profilePicture, 
+                    createdAt: post.createdAt,
                     content: post.content, 
                     post: {
                         id:post.postId,
@@ -101,7 +102,8 @@ export async function getAllFollows(req,res){
                 resp.push({
                     id:post.userId,
                     name: post.name,
-                    profilePicture: post.profilePicture, 
+                    profilePicture: post.profilePicture,
+                    createdAt: post.createdAt, 
                     content: post.content, 
                     post: {
                         id:post.postId,

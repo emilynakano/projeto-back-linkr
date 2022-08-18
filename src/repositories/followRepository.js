@@ -35,6 +35,7 @@ export async function getAllFollowed(userId){
         users.id AS "userId",
         users.name, posts.id,
         posts.content, users."profilePicture",
+        posts."createdAt",
         posts.url 
         FROM users 
         JOIN posts
