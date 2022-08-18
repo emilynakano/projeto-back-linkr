@@ -213,6 +213,7 @@ export async function getPostsByHashtag(req, res) {
 
 export async function getNewPostsQty(req, res) {
     const { date } = req.params;
+    const { id } = res.locals.user;
 
     if (!dayjs(date).isValid()){
         res.status(400).send("Invalid date!");
@@ -220,7 +221,7 @@ export async function getNewPostsQty(req, res) {
     }
 
     try {
-        const { rows: newPosts } = await getNewPostsQtyByDate(date);
+        const { rows: newPosts } = await getNewPostsQtyByDate(id, date);
         res.status(200).send(newPosts);
     } catch {
         res.sendStatus(500);

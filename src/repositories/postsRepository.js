@@ -72,6 +72,14 @@ export async function getPostsListByHashtag(hashtag) {
         )
 }
 
-export async function getNewPostsQtyByDate(date){
-    return db.query(`SELECT COUNT(*) FROM posts WHERE "createdAt" > $1`, [date]);
+export async function getNewPostsQtyByDate(userId, date){
+    return db.query(
+        `SELECT COUNT(*) 
+        FROM users 
+        JOIN posts
+        ON users.id=posts."posterId"
+        JOIN follows
+        ON users.id="followedUserId"
+        WHERE "followerUserId"= $1 AND posts."createdAt" > $2;`, [userId, date]
+    );
 }
