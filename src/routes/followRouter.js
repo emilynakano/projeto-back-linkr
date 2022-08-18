@@ -4,7 +4,7 @@ import { followUser, statusFollow } from "../controllers/followController.js";
 
 const followRouter = Router();
 
-followRouter.post("/user/:id/follow",validateToken, followUser);
-followRouter.get("/user/:id/follow",validateToken, statusFollow);
+followRouter.post("/user/:followedUserId/follow",validateToken, followUser);
+followRouter.get("/user/:followedUserId/follow",validateToken, statusFollow);
 
 export default followRouter;
