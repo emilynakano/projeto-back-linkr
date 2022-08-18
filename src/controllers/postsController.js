@@ -25,6 +25,7 @@ export async function getPosts(req, res) {
                     name: post.name,
                     profilePicture: post.profilePicture, 
                     content: post.content, 
+                    createdAt: post.createdAt,
                     post: {
                         id:post.postId,
                         title: metadata.title,
