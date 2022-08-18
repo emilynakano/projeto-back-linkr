@@ -20,11 +20,11 @@ export async function followUser(req,res){
 
         if(follow.rowCount===0){
             await insertFollow(id,followedUserId);
-            res.status(200).send("Follow");
+            res.status(200).send("Unfollow");
             return;
         }else{
             await unfollow(id,followedUserId);
-            res.status(200).send("Unfollow");
+            res.status(200).send("Follow");
             return;
         }
     } catch (error) {
