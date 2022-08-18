@@ -10,7 +10,7 @@ export async function insertPost(url, content, posterId) {
     )
 }
 export async function getAllPosts() {
-    return db.query(`SELECT posts.id AS "postId", users.id AS "userId", users.name, posts.id, posts.content, users."profilePicture", posts.url FROM users JOIN posts ON users.id=posts."posterId" ORDER BY posts."createdAt" DESC LIMIT 20;
+    return db.query(`SELECT posts.id AS "postId", users.id AS "userId", users.name, posts.id, posts.content, users."profilePicture", posts."createdAt", posts.url FROM users JOIN posts ON users.id=posts."posterId" ORDER BY posts."createdAt" DESC LIMIT 20;
     `)
 }
 
@@ -70,4 +70,8 @@ export async function getPostsListByHashtag(hashtag) {
         ORDER BY posts."createdAt" DESC LIMIT 20`,
         [hashtag]
         )
+}
+
+export async function getNewPostsQtyByDate(date){
+    return db.query(`SELECT COUNT(*) FROM posts WHERE "createdAt" > $1`, [date]);
 }

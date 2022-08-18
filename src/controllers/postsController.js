@@ -1,8 +1,9 @@
 import { createTrendingTable, getAllContent, getPostsByPosterId, getPostsListByHashtag } from "../repositories/postsRepository.js";
-import { insertPost, getAllPosts, findPostById, updateContent, deletePostById} from '../repositories/postsRepository.js';
+import { insertPost, getAllPosts, findPostById, updateContent, deletePostById, getNewPostsQtyByDate} from '../repositories/postsRepository.js';
 import urlMetadata from 'url-metadata';
 import { getUserById } from "../repositories/userRepository.js";
 import chalk from "chalk";
+import dayjs from "dayjs";
 import { deleteTrendingContent } from "../repositories/trengingsRepository.js";
 
 export async function createPost(req, res) {
@@ -25,6 +26,7 @@ export async function getPosts(req, res) {
                     name: post.name,
                     profilePicture: post.profilePicture, 
                     content: post.content, 
+                    createdAt: post.createdAt,
                     post: {
                         id:post.postId,
                         title: metadata.title,
@@ -205,5 +207,21 @@ export async function getPostsByHashtag(req, res) {
           message: error,
         });
         return;
+    }
+}
+
+export async function getNewPostsQty(req, res) {
+    const { date } = req.params;
+
+    if (!dayjs(date).isValid()){
+        res.status(400).send("Invalid date!");
+        return;
+    }
+
+    try {
+        const { rows: newPosts } = await getNewPostsQtyByDate(date);
+        res.status(200).send(newPosts);
+    } catch {
+        res.sendStatus(500);
     }
 }
