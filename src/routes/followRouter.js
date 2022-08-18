@@ -4,6 +4,6 @@ import { followUser } from "../controllers/followController.js";
 
 const followRouter = Router();
 
-followRouter.post("/user/:id/follow", followUser);
+followRouter.post("/user/:followedUserId/follow", followUser);
 
 export default followRouter;
