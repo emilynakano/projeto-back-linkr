@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import { getFollow, getFollowUser, insertFollow, unfollow , getAllFollowed } from "../repositories/followRepository.js";
-import db from "../config/db.js";
+import urlMetadata from 'url-metadata';
 
 export async function followUser(req,res){
     const { id:followedUserId } = req.params;
@@ -74,10 +74,46 @@ export async function getFollowsUser(req, res) {
 
 export async function getAllFollows(req,res){
     const {id: userId} = res.locals.user;
+    if (!id || isNaN(Number(id))) {
+        res.status(400).send("Invalid id!");
+        return;
+    }
     try {
-        const {rows:follows} = await getAllFollowed(userId);
-
-        res.status(200).send(follows);
+        const {rows:posts} = await getAllFollowed(userId);
+        const resp = []
+        for(const post of posts) {
+            try {
+                const metadata = await urlMetadata(post.url)
+                resp.push({
+                    id:post.userId,
+                    name: post.name,
+                    profilePicture: post.profilePicture, 
+                    content: post.content, 
+                    post: {
+                        id:post.postId,
+                        title: metadata.title,
+                        description: metadata.description,
+                        image: metadata.image,
+                        url: post.url
+                    }  
+                })
+            } catch {
+                resp.push({
+                    id:post.userId,
+                    name: post.name,
+                    profilePicture: post.profilePicture, 
+                    content: post.content, 
+                    post: {
+                        id:post.postId,
+                        title: null,
+                        description: null,
+                        image: null,
+                        url: post.url
+                    }  
+                })
+            }
+        }
+        res.status(200).send(resp)
         return;
     } catch (error) {
         console.log(chalk.bold.red("Erro no servidor!"));
