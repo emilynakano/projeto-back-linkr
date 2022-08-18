@@ -42,7 +42,7 @@ export async function getAllFollowed(userId){
         ON users.id=posts."posterId"
         JOIN follows
         ON users.id="followedUserId"
-        WHERE "followerUserId"= $1
+        WHERE "followerUserId"= $1 OR posts."posterId"=$1
         ORDER BY posts."createdAt" 
         DESC LIMIT 20;`,[userId]
     );
