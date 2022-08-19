@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { getFollow, getFollowUser, insertFollow, unfollow , getAllFollowed } from "../repositories/followRepository.js";
+import { getFollow, getFollowUser, insertFollow, unfollow , getAllFollowed, getReposts } from "../repositories/followRepository.js";
 import urlMetadata from 'url-metadata';
 
 export async function followUser(req,res){
@@ -79,6 +79,8 @@ export async function getAllFollows(req,res){
         return;
     }
     try {
+        const {rows: reposts} = await getReposts(userId);
+        console.log(reposts)
         const {rows:posts} = await getAllFollowed(userId);
         const resp = []
         for(const post of posts) {
@@ -118,7 +120,7 @@ export async function getAllFollows(req,res){
         res.status(200).send(resp)
         return;
     } catch (error) {
-        console.log(chalk.bold.red("Erro no servidor!"));
+        console.log(chalk.bold.red(error));
         res.status(500).send({
           message: "Internal server error while get all followed users!",
         });

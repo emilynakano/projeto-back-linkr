@@ -47,3 +47,17 @@ export async function getAllFollowed(userId){
         DESC LIMIT 20;`,[userId]
     );
 }
+export async function getReposts(userId){
+    return db.query(
+        `SELECT 
+        users.name,
+        reposts."postId" 
+        FROM reposts 
+        JOIN users 
+        ON users.id=reposts."userId"
+        JOIN follows
+        ON users.id="followedUserId"
+        WHERE "followerUserId"= $1
+        ;`,[userId]
+    );
+}
