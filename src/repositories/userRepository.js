@@ -38,6 +38,6 @@ export async function getFollow(followerUserId){
     return db.query(
         `SELECT "followedUserId","followerUserId" 
         FROM "follows"
-        WHERE "followedUserId" = $1 `,[followerUserId]
+        WHERE "followerUserId" = $1 `,[followerUserId]
     );
 }
