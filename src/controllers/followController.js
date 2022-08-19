@@ -75,7 +75,7 @@ export async function getFollowsUser(req, res) {
 
 export async function getAllFollows(req,res){
     const {id: userId} = res.locals.user;
-    const offset = req.query.offset;
+    const offset = 0;
     if (!userId || isNaN(Number(userId))) {
         res.status(400).send("Invalid id!");
         return;
