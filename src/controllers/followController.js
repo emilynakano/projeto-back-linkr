@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { getFollow, getFollowUser, insertFollow, unfollow , getAllFollowed } from "../repositories/followRepository.js";
+import { getFollow, getFollowUser, insertFollow, unfollow , getAllFollowed, getAllFollowedWithReposts } from "../repositories/followRepository.js";
 import urlMetadata from 'url-metadata';
 
 export async function followUser(req,res){
@@ -79,7 +79,8 @@ export async function getAllFollows(req,res){
         return;
     }
     try {
-        const {rows:posts} = await getAllFollowed(userId);
+        //const {rows:posts} = await getAllFollowed(userId);
+        const {rows: posts} = await getAllFollowedWithReposts(userId)
         const resp = []
         for(const post of posts) {
             try {
