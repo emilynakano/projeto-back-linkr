@@ -1,6 +1,7 @@
 import chalk from "chalk";
-import { getFollow, getFollowUser, insertFollow, unfollow , getAllFollowed } from "../repositories/followRepository.js";
+import { getFollow, getFollowUser, insertFollow, unfollow , getAllFollowed, getAllFollowedWithReposts } from "../repositories/followRepository.js";
 import urlMetadata from 'url-metadata';
+import { getReposts } from "../repositories/repostsRepository.js";
 
 export async function followUser(req,res){
     const { id:followedUserId } = req.params;
@@ -79,7 +80,9 @@ export async function getAllFollows(req,res){
         return;
     }
     try {
-        const {rows:posts} = await getAllFollowed(userId);
+        //const {rows:posts} = await getAllFollowed(userId);
+        const {rows: posts} = await getAllFollowedWithReposts(userId)
+        const {rows: reposts} = await getReposts()
         const resp = []
         for(const post of posts) {
             try {
@@ -90,6 +93,9 @@ export async function getAllFollows(req,res){
                     profilePicture: post.profilePicture, 
                     createdAt: post.createdAt,
                     content: post.content, 
+                    isRepost: post.isRepost,
+                    ReposterName: post.reposterName,
+                    repostLength: reposts.filter((repost) => repost.id === post.postId).length,
                     post: {
                         id:post.postId,
                         title: metadata.title,
@@ -105,6 +111,9 @@ export async function getAllFollows(req,res){
                     profilePicture: post.profilePicture,
                     createdAt: post.createdAt, 
                     content: post.content, 
+                    isRepost: post.isRepost,
+                    ReposterName: post.reposterName,
+                    repostLength: reposts.filter((repost) => repost.id === post.postId).length,
                     post: {
                         id:post.postId,
                         title: null,
@@ -118,7 +127,7 @@ export async function getAllFollows(req,res){
         res.status(200).send(resp)
         return;
     } catch (error) {
-        console.log(chalk.bold.red("Erro no servidor!"));
+        console.log(chalk.bold.red(error));
         res.status(500).send({
           message: "Internal server error while get all followed users!",
         });

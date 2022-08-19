@@ -47,3 +47,37 @@ export async function getAllFollowed(userId){
         DESC LIMIT 20;`,[userId]
     );
 }
+export async function getAllFollowedWithReposts(userId) {
+    return db.query(
+        `SELECT posts.id AS "postId",
+        users.id AS "userId",
+        users.name, posts.id,
+        posts.content, users."profilePicture",
+        posts."createdAt",
+        posts.url, posts."isRepost",
+		CASE
+			WHEN posts."isRepost" IS FALSE THEN NULL
+		END AS "reposterName"
+        FROM users 
+        JOIN posts
+        ON users.id=posts."posterId"
+        JOIN follows
+        ON users.id="followedUserId"
+		UNION SELECT reposts.id AS "postId",
+        users.id AS "userId",
+        users.name, reposts.id,
+        reposts.content, users."profilePicture",
+        reposts."createdAt",
+        reposts.url,
+		reposts."isRepost",
+		reposts."reposterName"
+        FROM users 
+        JOIN reposts
+        ON users.id=reposts."posterId"
+        JOIN follows
+        ON users.id="followedUserId"
+        WHERE "followerUserId"= $1
+        ORDER BY "createdAt" 
+        DESC LIMIT 20;`,[userId]
+    )
+}
