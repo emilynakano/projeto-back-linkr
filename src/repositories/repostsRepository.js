@@ -15,3 +15,8 @@ export function postExists(postId) {
         `SELECT * FROM posts WHERE id=$1`, [postId]
         )
 }
+export function getReposts() {
+    return db.query(
+        `SELECT * FROM reposts`
+        )
+}
