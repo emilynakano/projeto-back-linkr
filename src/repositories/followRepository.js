@@ -62,7 +62,8 @@ export async function getAllFollowedWithReposts(userId) {
         JOIN posts
         ON users.id=posts."posterId"
         JOIN follows
-        ON users.id="followedUserId"
+        ON users.id=follows."followedUserId"
+        WHERE "followerUserId"= $1
 		UNION SELECT reposts.id AS "postId",
         users.id AS "userId",
         users.name, reposts.id,
@@ -75,7 +76,7 @@ export async function getAllFollowedWithReposts(userId) {
         JOIN reposts
         ON users.id=reposts."posterId"
         JOIN follows
-        ON users.id="followedUserId"
+        ON users.id=follows."followedUserId"
         WHERE "followerUserId"= $1
         ORDER BY "createdAt" 
         DESC LIMIT 20;`,[userId]
