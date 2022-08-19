@@ -21,7 +21,7 @@ export async function getUsersBySearch(username,id){
     );
 }
 
-export async function getSearchUserByName (name){
+export async function getSearchUserByName (username){
     return db.query(
         `SELECT users.name,
         users.id,
@@ -29,14 +29,15 @@ export async function getSearchUserByName (name){
         FROM users
         WHERE users.name 
         ILIKE $1
-        ORDER BY users.name;`,[name]
+        ORDER BY users.name
+        LIMIT 10`,[username + '%']
     );
 }
 
-export async function getFollow(followedUserId,followerUserId){
+export async function getFollow(followerUserId){
     return db.query(
-        `SELECT * FROM "follows"
-        WHERE "followedUserId" = $1 
-        AND "followerUserId" = $2;`,[followedUserId,followerUserId]
+        `SELECT "followedUserId","followerUserId" 
+        FROM "follows"
+        WHERE "followedUserId" = $1 `,[followerUserId]
     );
 }
