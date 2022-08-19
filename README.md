@@ -10,17 +10,26 @@ The purpose of this Full Stack project was to create a web application to post a
   - [X] **POST** `/signup`
   - [X] **POST** `/posts`
   - [X] **GET** `/posts`
+  - [X] **POST** `/posts/:id/edit`
+  - [X] **DELETE** `/posts/:id`
+  - [X] **GET** `/trendings`
+  - [X] **GET** `/hashtag/:hashtag`
+  - [X] **GET** `/user/:id`
+  - [X] **GET** `/search/:username`
+  - [X] **GET** `/posts/newPostsQty/:date`
   - [X] **POST** `/likes`
   - [X] **GET** `/likes`
   - [X] **GET** `/likes/user`
-  - [X] **DELETE** `/likes`
-  - [X] **POST** `/posts`
-  - [X] **GET** `/posts`
-  - [X] **GET** `/posts/:id/edit`
-  - [X] **DELETE** `/posts/:id`
-  - [X] **GET** `/user/:id`
-  - [X] **GET** `/search/:username`
-
+  - [X] **DELETE** `/likes/:id`
+  - [X] **POST** `/comments`
+  - [X] **GET** `/comments`
+  - [X] **POST** `/user/:id/follow`
+  - [X] **GET** `/user/:id/follow`
+  - [X] **GET** `/follow/user`
+  - [X] **GET** `/follows`
+  - [X] **POST** `/reposts`
+  
+  
 ## Technologies
 
 <div align="center">
