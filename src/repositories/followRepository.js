@@ -23,7 +23,11 @@ export async function unfollow(followerUserId,followedUserId){
 }
 export async function getFollowUser(userId){
     return db.query(
-        `SELECT "followedUserId" AS id FROM follows
+        `SELECT "followedUserId" AS id,
+        users.name AS name
+        FROM follows
+        JOIN users
+        ON follows."followedUserId" = users.id
         WHERE "followerUserId"=$1`, [userId]
     );
 }
