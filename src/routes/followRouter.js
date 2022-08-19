@@ -7,6 +7,6 @@ const followRouter = Router();
 followRouter.post("/user/:id/follow",validateToken, followUser);
 followRouter.get("/user/:id/follow",validateToken, statusFollow);
 followRouter.get("/follow/user", validateToken, getFollowsUser);
-followRouter.get("/follows?offset",validateToken, getAllFollows);
+followRouter.get("/follows",validateToken, getAllFollows);
 
 export default followRouter;
