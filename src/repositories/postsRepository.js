@@ -40,9 +40,9 @@ export async function updateContent(id,content){
 
 export async function deletePostById(id){
 
-    db.query('DELETE FROM likes WHERE "postId" = $1', [id]);
+    await db.query('DELETE FROM likes WHERE "postId" = $1', [id]);
 
-    db.query(`DELETE FROM hashtags WHERE 'postId" = $1`, [id]);
+    await db.query(`DELETE FROM hashtags WHERE "postId" = $1`, [id]);
 
     return db.query(
         `DELETE FROM posts
