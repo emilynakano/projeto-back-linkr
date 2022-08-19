@@ -91,6 +91,8 @@ export async function getAllFollows(req,res){
                     profilePicture: post.profilePicture, 
                     createdAt: post.createdAt,
                     content: post.content, 
+                    isRepost: post.isRepost,
+                    ReposterName: post.reposterName,
                     post: {
                         id:post.postId,
                         title: metadata.title,
@@ -106,6 +108,8 @@ export async function getAllFollows(req,res){
                     profilePicture: post.profilePicture,
                     createdAt: post.createdAt, 
                     content: post.content, 
+                    isRepost: post.isRepost,
+                    ReposterName: post.reposterName,
                     post: {
                         id:post.postId,
                         title: null,
