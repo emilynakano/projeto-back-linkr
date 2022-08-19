@@ -75,13 +75,22 @@ export async function getFollowsUser(req, res) {
 
 export async function getAllFollows(req,res){
     const {id: userId} = res.locals.user;
+    const { offset } = req.query;
     if (!userId || isNaN(Number(userId))) {
         res.status(400).send("Invalid id!");
         return;
     }
+    if (!offset) {
+        offset = 0;
+    }
+    if (isNaN(Number(offset))) {
+        res.status(400).send("Invalid offset!");
+        return;
+    }
     try {
         //const {rows:posts} = await getAllFollowed(userId);
-        const {rows: posts} = await getAllFollowedWithReposts(userId)
+        offset = offset * 10;
+        const {rows: posts} = await getAllFollowedWithReposts(userId, offset);
         const {rows: reposts} = await getReposts()
         const resp = []
         for(const post of posts) {
