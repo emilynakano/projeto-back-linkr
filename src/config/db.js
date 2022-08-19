@@ -19,4 +19,5 @@ const db = new Pool({
     database: 'linkr'
 });
 
+
 export default db;
