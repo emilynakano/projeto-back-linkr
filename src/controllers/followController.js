@@ -90,7 +90,7 @@ export async function getAllFollows(req,res){
     try {
         //const {rows:posts} = await getAllFollowed(userId);
         offset = offset * 10;
-        const {rows: posts} = await getAllFollowedWithReposts(userId, offset);
+        const {rows: posts} = await getAllFollowedWithReposts(userId);
         const {rows: reposts} = await getReposts()
         const resp = []
         for(const post of posts) {

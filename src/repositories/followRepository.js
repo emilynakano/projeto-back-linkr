@@ -79,6 +79,6 @@ export async function getAllFollowedWithReposts(userId, offset) {
         ON users.id=follows."followedUserId"
         WHERE "followerUserId"= $1 OR users.name = reposts."reposterName"
         ORDER BY "createdAt" 
-        DESC LIMIT 10 OFFSET $2;`,[userId, offset]
+        DESC LIMIT 10;`,[userId]
     )
 }
