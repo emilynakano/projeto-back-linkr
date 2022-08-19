@@ -8,7 +8,7 @@ export async function getUsersBySearch(req, res){
 
     try {
         
-        const {rows:users} = await getSearchUserByName(username);
+        const {rows:users} = await getSearchUserByName(username,id);
         const {rows:follows} = await getFollow(id);
         
         // if(users.length===0){

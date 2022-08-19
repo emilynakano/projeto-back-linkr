@@ -21,16 +21,23 @@ export async function getUsersBySearch(username,id){
     );
 }
 
-export async function getSearchUserByName (username){
+export async function getSearchUserByName (username,id){
     return db.query(
         `SELECT users.name,
         users.id,
-        users."profilePicture"
+        users."profilePicture",
+        (case when exists
+		(SELECT * FROM follows 
+		WHERE "followerUserId"=$1
+        	AND "followedUserId"=users.id)
+        	then CAST (1 AS int)
+        	else CAST (0 AS int)
+        end) AS "isFollowing"
         FROM users
         WHERE users.name 
-        ILIKE $1
-        ORDER BY users.name
-        LIMIT 10`,[username + '%']
+        ILIKE $2
+        ORDER BY users.name ORDER BY "isFollowing" DESC
+        LIMIT 10`,[id,username + '%']
     );
 }
 
