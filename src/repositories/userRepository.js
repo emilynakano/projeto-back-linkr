@@ -36,7 +36,7 @@ export async function getSearchUserByName (username,id){
         FROM users
         WHERE users.name 
         ILIKE $2
-        ORDER BY users.name ORDER BY "isFollowing" DESC
+        ORDER BY "isFollowing" DESC, users.name
         LIMIT 10`,[id,username + '%']
     );
 }
