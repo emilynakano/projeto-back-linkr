@@ -78,7 +78,7 @@ export async function getAllFollowedWithReposts(userId, page) {
 		reposts."reposterName"
         FROM users 
         JOIN reposts
-        ON users.id=reposts."posterId" OR users.name = reposts."reposterName"
+        ON users.id=reposts."posterId" 
         JOIN follows
         ON users.id=follows."followedUserId"
         WHERE "followerUserId"= $1 OR users.name = reposts."reposterName"
