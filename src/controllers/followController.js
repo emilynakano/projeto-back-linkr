@@ -75,13 +75,22 @@ export async function getFollowsUser(req, res) {
 
 export async function getAllFollows(req,res){
     const {id: userId} = res.locals.user;
+    const page = req.query.page;
+    if (!page){
+        page = 0;
+    }
+    if (isNaN(Number(page))){
+        res.status(400).send("Invalid page!");
+        return;
+    }
     if (!userId || isNaN(Number(userId))) {
         res.status(400).send("Invalid id!");
         return;
     }
+    page = page * 10;
     try {
         //const {rows:posts} = await getAllFollowed(userId);
-        const {rows: posts} = await getAllFollowedWithReposts(userId)
+        const {rows: posts} = await getAllFollowedWithReposts(userId, page);
         const {rows: reposts} = await getReposts()
         const resp = []
         for(const post of posts) {

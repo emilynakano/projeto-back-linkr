@@ -51,7 +51,7 @@ export async function getAllFollowed(userId){
         DESC LIMIT 20;`,[userId]
     );
 }
-export async function getAllFollowedWithReposts(userId) {
+export async function getAllFollowedWithReposts(userId, page) {
     return db.query(
         `SELECT posts.id AS "postId",
         users.id AS "userId",
@@ -83,6 +83,6 @@ export async function getAllFollowedWithReposts(userId) {
         ON users.id=follows."followedUserId"
         WHERE "followerUserId"= $1 OR users.name = reposts."reposterName"
         ORDER BY "createdAt" 
-        DESC LIMIT 20;`,[userId]
+        DESC LIMIT 10 OFFSET $2;`,[userId, page]
     )
 }
