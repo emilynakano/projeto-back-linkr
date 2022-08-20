@@ -75,7 +75,7 @@ export async function getFollowsUser(req, res) {
 
 export async function getAllFollows(req,res){
     const {id: userId} = res.locals.user;
-    const page = req.query.page;
+    let page = req.query.page;
     if (!page){
         page = 0;
     }
